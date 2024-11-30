@@ -16,7 +16,6 @@ public class Encryptor extends AESUtils{
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Scanner rc = new Scanner(System.in);
 
-        while (true) {
             try {
                 System.out.println("Which file you want to encrypt? (e.g. encryptme.txt)");
                 String fileName = rc.nextLine();
@@ -42,11 +41,12 @@ public class Encryptor extends AESUtils{
                     Menu.displayMenu();
                 } catch (IOException e) {
                     System.out.println("An error occurred.");
+                    encrypt(algorithm, key, iv);
                 }
 
             } catch (FileNotFoundException e) {
                 System.out.println("File not found. Please try again.");
+                encrypt(algorithm, key, iv);
             }
-        }
     }
 }

@@ -13,8 +13,6 @@ public class Decryptor {
 
     public static void decrypt(String algorithm, IvParameterSpec iv){
         Scanner rc = new Scanner(System.in);
-        while (true)
-        {
             try {
                 System.out.println("Which file you want to decrypt? (e.g. decryptme.txt)");
                 String fileName = rc.nextLine();
@@ -36,7 +34,6 @@ public class Decryptor {
                 byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipheredText));
                 String result = new String(plainText, StandardCharsets.UTF_8);
 
-
                 try {
                     FileWriter writer = new FileWriter("plaintext.txt");
                     writer.write(result);
@@ -45,17 +42,16 @@ public class Decryptor {
                     Menu.displayMenu();
                 } catch (IOException e) {
                     System.out.println("An error occurred.");
+                    decrypt(algorithm, iv);
                 }
 
             }catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                System.out.println("File Not Found");
+                decrypt(algorithm, iv);
             } catch (Exception e) {
-            System.out.println("Decryption failed: " + e.getMessage());
+                System.out.println("Decryption failed: " + e.getMessage());
+                decrypt(algorithm, iv);
             }
-
-
-        }
-
     }
 
 }
