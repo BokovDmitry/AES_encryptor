@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Scanner;
 
@@ -36,15 +34,15 @@ public class Decryptor {
                 Cipher cipher = Cipher.getInstance(algorithm);
                 cipher.init(Cipher.DECRYPT_MODE, key, iv);
                 byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipheredText));
-                String result = Base64.getEncoder().encodeToString(plainText);
+                String result = new String(plainText, StandardCharsets.UTF_8);
+
 
                 try {
                     FileWriter writer = new FileWriter("plaintext.txt");
-                    writer.write(result + " " + Base64.getEncoder().encodeToString(key.getEncoded()));
+                    writer.write(result);
                     writer.close();
                     System.out.println(fileName + " successfully decrypted to a file plaintext.txt. ( "+file.getAbsolutePath()+" )");
-                    System.out.println("Key : " + Base64.getEncoder().encodeToString(key.getEncoded()));
-                    break;
+                    Menu.displayMenu();
                 } catch (IOException e) {
                     System.out.println("An error occurred.");
                 }

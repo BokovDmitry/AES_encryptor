@@ -11,7 +11,10 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public void displayMenu() {
+    // Instance variable to store the ivParameterSpec
+    private static IvParameterSpec ivParameterSpec;
+
+    public static void displayMenu() {
         try {
             System.out.println("1. Encrypt a File");
             System.out.println("2. Decrypt a File");
@@ -44,15 +47,18 @@ public class Menu {
         }
     }
 
-    public void encryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+    public static void encryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         SecretKey key = AESUtils.generateKey(128);
-        IvParameterSpec ivParameterSpec = AESUtils.generateIv();
+        ivParameterSpec = AESUtils.generateIv();
         Encryptor.encrypt("AES/CBC/PKCS5Padding", key, ivParameterSpec);
-        Decryptor.decrypt("AES/CBC/PKCS5Padding", ivParameterSpec);
     }
 
-    public void decryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        IvParameterSpec ivParameterSpec = AESUtils.generateIv();
+    public static void decryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        if (ivParameterSpec == null) {
+            System.out.println("Error: No IV for decryption. Please encrypt a file first.");
+            return;
+        }
+        // Use the stored ivParameterSpec for decryption
         Decryptor.decrypt("AES/CBC/PKCS5Padding", ivParameterSpec);
     }
 }

@@ -39,8 +39,7 @@ public class Encryptor extends AESUtils{
                     myWriter.close();
                     System.out.println(fileName + " successfully encrypted.");
                     System.out.println("Key : " + Base64.getEncoder().encodeToString(key.getEncoded()));
-                    System.out.println("iv : " + iv);
-                    break;
+                    Menu.displayMenu();
                 } catch (IOException e) {
                     System.out.println("An error occurred.");
                 }
