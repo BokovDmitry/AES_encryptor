@@ -22,6 +22,7 @@ public class Menu {
 
             switch(option) {
                 case 1:
+                    encryptFile();
                     break;
                 case 2:
                     break;
@@ -39,10 +40,12 @@ public class Menu {
             System.out.println("Invalid input");
             System.out.println("Input should be a number from 1 to 3");
             displayMenu();
+        } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException |
+                 NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
+            throw new RuntimeException(e);
         }
     }
     public void encryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        Encryptor encryptor = new Encryptor();
         SecretKey key = AESUtils.generateKey(128);
         IvParameterSpec ivParameterSpec = AESUtils.generateIv();
         Encryptor.encrypt("AES/CBC/PKCS5Padding", key, ivParameterSpec);

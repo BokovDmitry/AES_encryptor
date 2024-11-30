@@ -2,6 +2,8 @@ import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +12,7 @@ import java.util.Scanner;
 
 public class Encryptor extends AESUtils{
 
-    public static String encrypt(String algorithm, SecretKey key, IvParameterSpec iv)
+    public static void encrypt(String algorithm, SecretKey key, IvParameterSpec iv)
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Scanner rc = new Scanner(System.in);
 
@@ -29,7 +31,18 @@ public class Encryptor extends AESUtils{
                 Cipher cipher = Cipher.getInstance(algorithm);
                 cipher.init(Cipher.ENCRYPT_MODE, key, iv);
                 byte[] cipherText = cipher.doFinal(plainText.getBytes());
-                return Base64.getEncoder().encodeToString(cipherText);
+                String result = Base64.getEncoder().encodeToString(cipherText);
+
+                try {
+                    FileWriter myWriter = new FileWriter("ciphertext.txt");
+                    myWriter.write(result + " " + Base64.getEncoder().encodeToString(key.getEncoded()));
+                    myWriter.close();
+                    System.out.println(fileName + " successfully encrypted.");
+                    System.out.println("Key : " + Base64.getEncoder().encodeToString(key.getEncoded()));
+                    break;
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                }
 
             } catch (FileNotFoundException e) {
                 System.out.println("File not found. Please try again.");
