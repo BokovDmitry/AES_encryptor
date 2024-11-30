@@ -19,8 +19,8 @@ public class Encryptor extends AESUtils{
             try {
                 System.out.println("Which file you want to encrypt? (e.g. encryptme.txt)");
                 String fileName = rc.nextLine();
-                File file = new File(fileName);
-                Scanner read = new Scanner(file);
+                File encryptFile = new File(fileName);
+                Scanner read = new Scanner(encryptFile);
 
                 String plainText = "";
                 while (read.hasNextLine())
@@ -33,9 +33,9 @@ public class Encryptor extends AESUtils{
                 String result = Base64.getEncoder().encodeToString(cipherText);
 
                 try {
-                    FileWriter myWriter = new FileWriter("ciphertext.txt");
-                    myWriter.write(result);
-                    myWriter.close();
+                    FileWriter writer = new FileWriter("ciphertext.txt");
+                    writer.write(result);
+                    writer.close();
                     System.out.println(fileName + " successfully encrypted.");
                     System.out.println("Key : " + Base64.getEncoder().encodeToString(key.getEncoded()));
                     Menu.displayMenu();

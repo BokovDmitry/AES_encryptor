@@ -16,8 +16,9 @@ public class Decryptor {
             try {
                 System.out.println("Which file you want to decrypt? (e.g. decryptme.txt)");
                 String fileName = rc.nextLine();
-                File file = new File(fileName);
-                Scanner read = new Scanner(file);
+                File decryptFile = new File(fileName);
+                File targetFile = new File("plaintext.txt");
+                Scanner read = new Scanner(decryptFile);
 
                 System.out.println("Please enter a valid key: ");
                 String encodedKey = rc.nextLine();
@@ -35,10 +36,10 @@ public class Decryptor {
                 String result = new String(plainText, StandardCharsets.UTF_8);
 
                 try {
-                    FileWriter writer = new FileWriter("plaintext.txt");
+                    FileWriter writer = new FileWriter(targetFile);
                     writer.write(result);
                     writer.close();
-                    System.out.println(fileName + " successfully decrypted to a file plaintext.txt. ( "+file.getAbsolutePath()+" )");
+                    System.out.println(fileName + " successfully decrypted to a file plaintext.txt. ( "+targetFile.getAbsolutePath()+" )");
                     Menu.displayMenu();
                 } catch (IOException e) {
                     System.out.println("An error occurred.");

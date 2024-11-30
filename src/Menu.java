@@ -47,10 +47,48 @@ public class Menu {
         }
     }
 
+    public static int keySizeMenu()
+    {
+        try
+        {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Select the AES key size: ");
+            System.out.println("1. 128");
+            System.out.println("2. 192");
+            System.out.println("3. 256");
+            int option = input.nextInt();
+            int keySize;
+
+            switch (option)
+            {
+                case 1: keySize = 128; break;
+                case 2: keySize = 192; break;
+                case 3: keySize = 256; break;
+                default: System.out.println("Invalid option"); return keySizeMenu();
+            }
+
+            System.out.println(keySize);
+
+            return keySize;
+
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Invalid input");
+            return keySizeMenu();
+        }
+    }
+
     public static void encryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        SecretKey key = AESUtils.generateKey(128);
-        ivParameterSpec = AESUtils.generateIv();
-        Encryptor.encrypt("AES/CBC/PKCS5Padding", key, ivParameterSpec);
+        try
+        {
+            int keySize = keySizeMenu();
+            SecretKey key = AESUtils.generateKey(keySize);
+            ivParameterSpec = AESUtils.generateIv();
+            Encryptor.encrypt("AES/CBC/PKCS5Padding", key, ivParameterSpec);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Invalid input");
+        }
     }
 
     public static void decryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
