@@ -35,10 +35,11 @@ public class Encryptor extends AESUtils{
 
                 try {
                     FileWriter myWriter = new FileWriter("ciphertext.txt");
-                    myWriter.write(result + " " + Base64.getEncoder().encodeToString(key.getEncoded()));
+                    myWriter.write(result);
                     myWriter.close();
                     System.out.println(fileName + " successfully encrypted.");
                     System.out.println("Key : " + Base64.getEncoder().encodeToString(key.getEncoded()));
+                    System.out.println("iv : " + iv);
                     break;
                 } catch (IOException e) {
                     System.out.println("An error occurred.");
