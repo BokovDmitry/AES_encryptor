@@ -20,7 +20,10 @@ public class Decryptor {
                 String fileName = rc.nextLine();
                 //if 'quit' command is entered - return to the menu
                 if (fileName.equalsIgnoreCase("quit"))
+                {
                     Menu.displayMenu();
+                    return;
+                }
                 File decryptFile = new File(fileName);
                 File targetFile = new File("plaintext.txt");
                 Scanner read = new Scanner(decryptFile);
@@ -39,6 +42,7 @@ public class Decryptor {
                 read.close();
 
                 //Decryption process
+                //source: https://www.baeldung.com/java-aes-encryption-decryption
                 Cipher cipher = Cipher.getInstance(algorithm);
                 cipher.init(Cipher.DECRYPT_MODE, key, iv);
                 byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipheredText));
