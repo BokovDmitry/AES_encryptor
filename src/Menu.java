@@ -97,12 +97,12 @@ public class Menu {
     }
 
     public static void decryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        //Checks if the initialisation vector exists. If false prints out the error message
+        //Checks if the initialisation vector exists. If true prints out the error message
         if (ivParameterSpec == null) {
             System.out.println("Error: No IV for decryption. Please encrypt a file first.");
             return;
         }
-        // If true calls the decrypt function with appropriate key and initialisation vector
+        // If false calls the decrypt function with appropriate key and initialisation vector
         Decryptor.decrypt("AES/CBC/PKCS5Padding", ivParameterSpec);
     }
 }

@@ -23,7 +23,10 @@ public class Encryptor extends AESUtils{
                 String fileName = rc.nextLine();
                 //if 'quit' command is entered - return to the menu
                 if (fileName.equalsIgnoreCase("quit"))
+                {
                     Menu.displayMenu();
+                    return;
+                }
                 File encryptFile = new File(fileName);
                 Scanner read = new Scanner(encryptFile);
 
@@ -34,6 +37,7 @@ public class Encryptor extends AESUtils{
                 read.close();
 
                 //Encryption
+                //source: https://www.baeldung.com/java-aes-encryption-decryption
                 Cipher cipher = Cipher.getInstance(algorithm);
                 cipher.init(Cipher.ENCRYPT_MODE, key, iv);
                 byte[] cipherText = cipher.doFinal(plainText.getBytes());
