@@ -43,10 +43,11 @@ public class Menu {
             displayMenu();
         } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException |
                  NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
-            throw new RuntimeException(e);
+            System.out.println("Something went wrong...");
         }
     }
 
+    //Function that lets the user set the AES key size
     public static int keySizeMenu()
     {
         try
@@ -64,7 +65,7 @@ public class Menu {
                 case 1: keySize = 128; break;
                 case 2: keySize = 192; break;
                 case 3: keySize = 256; break;
-                default: System.out.println("Invalid option"); return keySizeMenu();
+                default: System.out.println("Invalid option. Input must be a number between 1 and 3"); return keySizeMenu();
             }
 
             System.out.println(keySize);
@@ -73,17 +74,21 @@ public class Menu {
 
         }catch (InputMismatchException e)
         {
-            System.out.println("Invalid input");
+            System.out.println("Invalid input. Input must be a number between 1 and 3");
             return keySizeMenu();
         }
     }
 
+    //Encryption Function
     public static void encryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         try
         {
             int keySize = keySizeMenu();
+            //generates a key of a given size (keySize)
             SecretKey key = AESUtils.generateKey(keySize);
+            //Generates an initialisation vector and assigns the value to an instance variable ivParameterSpec
             ivParameterSpec = AESUtils.generateIv();
+            //Encrypt function is called
             Encryptor.encrypt("AES/CBC/PKCS5Padding", key, ivParameterSpec);
         }catch (InputMismatchException e)
         {
@@ -92,11 +97,12 @@ public class Menu {
     }
 
     public static void decryptFile() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        //Checks if the initialisation vector exists. If false prints out the error message
         if (ivParameterSpec == null) {
             System.out.println("Error: No IV for decryption. Please encrypt a file first.");
             return;
         }
-        // Use the stored ivParameterSpec for decryption
+        // If true calls the decrypt function with appropriate key and initialisation vector
         Decryptor.decrypt("AES/CBC/PKCS5Padding", ivParameterSpec);
     }
 }
